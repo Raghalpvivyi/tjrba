@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جدول التجارب </title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #0a1628;
+    --navy: #102240;
+    --blue: #1a3a6b;
+    --accent: #c8a84b;
+    --accent2: #e8c96a;
+    --light: #f5f0e8;
+    --white: #ffffff;
+    --row1: #f9f6f0;
+    --row2: #eef4fb;
+    --border: #2a4a80;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--deep);
+    font-family: 'Cairo', sans-serif;
+    color: var(--deep);
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at 20% 20%, rgba(26,58,107,0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(200,168,75,0.15) 0%, transparent 50%);
+  }
+
+  .page-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .uni-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    color: var(--deep);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 6px 22px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    color: var(--white);
+    line-height: 1.5;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 20px rgba(200,168,75,0.3);
+  }
+
+  .subtitle {
+    color: var(--accent2);
+    font-size: 0.95rem;
+    font-weight: 300;
+    opacity: 0.85;
+  }
+
+  .divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to left, transparent, var(--accent), transparent);
+    margin: 18px auto 0;
+    border-radius: 2px;
+  }
+
+  .table-shell {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,168,75,0.2);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  col.col-num   { width: 5%; }
+  col.col-title { width: 17%; }
+  col.col-steps { width: 38%; }
+  col.col-tools { width: 28%; }
+  col.col-ind   { width: 12%; }
+
+  thead tr {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--navy) 100%);
+  }
+
+  thead th {
+    color: var(--accent2);
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 18px 14px;
+    text-align: center;
+    border-left: 1px solid rgba(200,168,75,0.15);
+    letter-spacing: 0.03em;
+  }
+  thead th:last-child { border-left: none; }
+
+  tbody tr:nth-child(odd)  { background: var(--row1); }
+  tbody tr:nth-child(even) { background: var(--row2); }
+  tbody tr { transition: background 0.2s; }
+  tbody tr:hover { background: #fff9ed; }
+
+  td {
+    padding: 18px 14px;
+    vertical-align: top;
+    border-left: 1px solid rgba(42,74,128,0.1);
+    border-bottom: 1px solid rgba(42,74,128,0.08);
+    font-size: 0.875rem;
+    line-height: 1.75;
+  }
+  td:last-child { border-left: none; }
+
+  .lab-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--accent) 100%);
+    color: var(--white);
+    font-weight: 900;
+    font-size: 1.1rem;
+    border-radius: 50%;
+    margin: 0 auto;
+    box-shadow: 0 3px 12px rgba(26,58,107,0.35);
+  }
+
+  .lab-title {
+    font-family: 'Amiri', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 5px;
+    line-height: 1.6;
+  }
+
+  .lab-type {
+    font-size: 0.75rem;
+    color: #888;
+    font-style: italic;
+  }
+
+  ol.steps {
+    padding-right: 18px;
+    margin: 0;
+  }
+  ol.steps li {
+    margin-bottom: 6px;
+    color: #2a2a3a;
+  }
+  ol.steps li:last-child { margin-bottom: 0; }
+
+  ul.items {
+    padding-right: 16px;
+    margin: 0;
+    list-style: none;
+  }
+  ul.items li {
+    position: relative;
+    padding-right: 14px;
+    margin-bottom: 5px;
+    color: #2a2a3a;
+  }
+  ul.items li::before {
+    content: '◆';
+    position: absolute;
+    right: 0;
+    color: var(--accent);
+    font-size: 0.55rem;
+    top: 5px;
+  }
+
+  .indicator-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #1a3a6b 0%, #2a5298 100%);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-top: 2px;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .self-ind {
+    background: linear-gradient(135deg, #6b3a1a 0%, #a05a2a 100%);
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 30px;
+    color: rgba(255,255,255,0.35);
+    font-size: 0.78rem;
+  }
+
+  @media (max-width: 900px) {
+    col.col-steps { width: 35%; }
+    col.col-tools { width: 28%; }
+    td, thead th { font-size: 0.8rem; padding: 12px 8px; }
+    .lab-num { width: 34px; height: 34px; font-size: 0.95rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <header>
+    <div class="uni-badge">جدول</div>
+    <h1>التجارب<br>كلها </h1>
+    <p class="subtitle">R</p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="table-shell">
+    <table>
+      <colgroup>
+        <col class="col-num">
+        <col class="col-title">
+        <col class="col-steps">
+        <col class="col-tools">
+        <col class="col-ind">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>رقم التجربة</th>
+          <th>عنوان التجربة</th>
+          <th>خطوات العمل</th>
+          <th>المواد والأدوات</th>
+          <th>الدليل المستخدم</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- Lab 2 -->
+        <tr>
+          <td><div class="lab-num">2</div></td>
+          <td>
+            <div class="lab-title">معايرة محلول هيدروكسيد الصوديوم مع حامض الهيدروكلوريك</div>
+            <div class="lab-type">(معايرة قاعدة قوية مع حامض قوي)</div>
+          </td>
+          <td>
+            <ol class="steps">
+              <li>احسب تركيز الحامض المركز، ثم احسب الحجم اللازم لتحضير 0.1 M في 100 مل باستخدام قانون التخفيف.</li>
+              <li>ضع الحامض المحضر في السحاحة.</li>
+              <li>انقل بالماصة 10 مل من محلول NaOH إلى الدورق المخروطي.</li>
+              <li>ضع ثلاث قطرات من دليل ميثيل البرتقالي.</li>
+              <li>أضف الحمض من السحاحة تدريجياً حتى نقطة النهاية (تغيّر اللون).</li>
+              <li>أعِد الخطوات 3 مرات (يجب أن تقع ثلاث قراءات ضمن مدى 0.2 مل).</li>
+            </ol>
+          </td>
+          <td>
+            <ul class="items">
+              <li>دورق مخروطي</li>
+              <li>ماصة (10 مل)</li>
+              <li>سحاحة</li>
+              <li>كأسان (Beakers)</li>
+              <li>قمع</li>
+              <li>محلول HCl القياسي 0.1 M</li>
+              <li>محلول هيدروكسيد الصوديوم (NaOH)</li>
+            </ul>
+          </td>
+          <td><div class="indicator-badge">ميثيل البرتقالي<br>(Methyl Orange)</div></td>
+        </tr>
+
+        <!-- Lab 3 -->
+        <tr>
+          <td><div class="lab-num">3</div></td>
+          <td>
+            <div class="lab-title">تحديد النسبة المئوية لحامض الخليك في الخل</div>
+            <div class="lab-type">(تسحيح حامض ضعيف مع قاعدة قوية)</div>
+          </td>
+          <td>
+            <ol class="steps">
+              <li>اغسل السحاحة بالماء المقطر ثم بمحلول NaOH القياسي.</li>
+              <li>حضّر محلول NaOH بتركيز 0.1 N واملأ به السحاحة.</li>
+              <li>اغسل الدورق المخروطي (250 مل) بالماء المقطر.</li>
+              <li>اغسل الماصة (10 مل) بمحلول الخل المعاير.</li>
+              <li>انقل بالماصة 10 مل من الخل إلى الدورق المخروطي.</li>
+              <li>أضف 2-3 قطرات من دليل الفينولفثالين.</li>
+              <li>أجرِ عملية التسحيح بإضافة NaOH تدريجياً حتى نقطة النهاية (ظهور اللون الوردي الثابت).</li>
+            </ol>
+          </td>
+          <td>
+            <ul class="items">
+              <li>دورق مخروطي (250 مل)</li>
+              <li>ماصة (10 مل)</li>
+              <li>سحاحة</li>
+              <li>كأسان (Beakers)</li>
+              <li>قمع</li>
+              <li>محلول خل (حامض الخليك) معاير</li>
+              <li>محلول NaOH 0.1 N معاير</li>
+            </ul>
+          </td>
+          <td><div class="indicator-badge">الفينولفثالين<br>(Phenolphthalein)</div></td>
+        </tr>
+
+        <!-- Lab 4 -->
+        <tr>
+          <td><div class="lab-num">4</div></td>
+          <td>
+            <div class="lab-title">تحديد العسرة الكلية في ماء الحنفية</div>
+            <div class="lab-type">(تسحيحات تكوين المعقدات — EDTA)</div>
+          </td>
+          <td>
+            <ol class="steps">
+              <li>حضّر محلول EDTA بتركيز 0.1 N.</li>
+              <li>املأ السحاحة بمحلول EDTA بتركيز 0.01 M.</li>
+              <li>انقل بالماصة 10 مل من ماء الحنفية إلى دورق مخروطي.</li>
+              <li>أضف 5 مل من محلول الأمونيا (لضبط pH = 10).</li>
+              <li>أضف 2-4 قطرات من دليل EBT.</li>
+              <li>أجرِ التسحيح حتى يتغير لون المحلول من الأحمر إلى الأزرق، مما يدل على نقطة النهاية.</li>
+            </ol>
+          </td>
+          <td>
+            <ul class="items">
+              <li>دورق حجمي</li>
+              <li>دوارق مخروطية</li>
+              <li>سحاحة</li>
+              <li>ماصة</li>
+              <li>محلول EDTA (0.01 M)</li>
+              <li>ماء الحنفية (العينة المجهولة)</li>
+              <li>محلول الأمونيا (لضبط pH)</li>
+            </ul>
+          </td>
+          <td><div class="indicator-badge">إريوكروم أسود-ت<br>(EBT)<br>Eriochrome Black T</div></td>
+        </tr>
+
+        <!-- Lab 5 -->
+        <tr>
+          <td><div class="lab-num">5</div></td>
+          <td>
+            <div class="lab-title">تعيين تركيز أيون الكلوريد</div>
+            <div class="lab-type">(طريقة موهر — Mohr's Method)</div>
+          </td>
+          <td>
+            <ol class="steps">
+              <li>تحضير العينة: ترشيح ماء الحنفية إذا كانت تحتوي على مواد صلبة.</li>
+              <li>نقل 10 مل من ماء الحنفية بالماصة إلى دورق مخروطي.</li>
+              <li>إضافة 1 مل من دليل كرومات البوتاسيوم (يعطي المحلول لوناً أصفر ليمونياً).</li>
+              <li>تسحيح العينة بمحلول نترات الفضة 0.1 mol/L تدريجياً.</li>
+              <li>إيقاف التسحيح عند ظهور أول أثر للون البني المحمر (نقطة النهاية).</li>
+              <li>تكرار عملية التسحيح لعينات أخرى حتى الحصول على نتائج متوافقة (فرق ≤ 0.2 مل).</li>
+            </ol>
+          </td>
+          <td>
+            <ul class="items">
+              <li>دورق مخروطي</li>
+              <li>ماصة</li>
+              <li>سحاحة</li>
+              <li>محلول نترات الفضة AgNO₃ (0.1 mol/L) — يُحفظ في زجاجة بنية</li>
+              <li>ماء الحنفية (العينة)</li>
+            </ul>
+          </td>
+          <td><div class="indicator-badge">كرومات البوتاسيوم<br>(K₂CrO₄)</div></td>
+        </tr>
+
+        <!-- Lab 6 -->
+        <tr>
+          <td><div class="lab-num">6</div></td>
+          <td>
+            <div class="lab-title">تعيين تركيز أيون الكلوريد بالمعايرة الرجعية</div>
+            <div class="lab-type">(طريقة فولهارد — Volhard's Method)</div>
+          </td>
+          <td>
+            <ol class="steps">
+              <li>يُؤخذ 10 مل من محلول العينة ويُوضع في دورق مخروطي.</li>
+              <li>يُضاف 1 مل من دليل كبريتات الأمونيوم الحديدية (Fe³⁺).</li>
+              <li>يُضاف فائض من محلول نترات الفضة (15-18 مل) للتأكد من تفاعل جميع أيونات الكلوريد.</li>
+              <li>تُعاير أيونات الفضة المتبقية (الزائدة) بمحلول KSCN حتى ظهور اللون الأحمر الداكن.</li>
+              <li>تُكرر المعايرة حتى الحصول على نتائج متقاربة (فرق ≤ 0.1 مل).</li>
+            </ol>
+          </td>
+          <td>
+            <ul class="items">
+              <li>دورق حجمي (50 أو 100 مل)</li>
+              <li>أسطوانات قياس (10 و100 مل)</li>
+              <li>دوارق مخروطية</li>
+              <li>سحاحة مع حامل</li>
+              <li>ماصة (10 مل)</li>
+              <li>حمض النتريك المركز (6 مول/لتر)</li>
+              <li>محلول AgNO₃ (0.1 مول/لتر) — في زجاجة بنية</li>
+              <li>محلول KSCN (0.1 مول/لتر)</li>
+              <li>محلول كبريتات الأمونيوم الحديدية (مشبع) كدليل</li>
+            </ul>
+          </td>
+          <td><div class="indicator-badge">كبريتات الأمونيوم الحديدية<br>NH₄Fe(SO₄)₂<br>(أيون Fe³⁺)</div></td>
+        </tr>
+
+        <!-- Lab 7 -->
+        <tr>
+          <td><div class="lab-num">7</div></td>
+          <td>
+            <div class="lab-title">تسحيح برمنغنات البوتاسيوم مع حامض الأوكزاليك</div>
+            <div class="lab-type">(تسحيح أكسدة واختزال — Redox Titration)</div>
+          </td>
+          <td>
+            <ol class="steps">
+              <li>تُجانس السحاحة بمحلول KMnO₄ ثم تُملأ به.</li>
+              <li>يُنقل 10 مل من محلول حامض الأوكزاليك إلى دورق مخروطي، ثم يُضاف 10 مل من H₂SO₄ (1 N).</li>
+              <li>يُسخن المزيج إلى درجة حرارة (60–70°م).</li>
+              <li>تُسجل القراءة الابتدائية للسحاحة.</li>
+              <li>يُعاير المحلول الساخن بمحلول KMnO₄ تدريجياً.</li>
+              <li>في البداية يختفي اللون الأرجواني لـ KMnO₄، وعند نقطة النهاية يظهر لون وردي ثابت لا يزول.</li>
+              <li>تُسجل القراءة النهائية ويُحسب تركيز KMnO₄ من العلاقة: N₁×V₁ = N₂×V₂</li>
+            </ol>
+          </td>
+          <td>
+            <ul class="items">
+              <li>حامض الأوكزاليك (H₂C₂O₄) النقي</li>
+              <li>محلول برمنغنات البوتاسيوم (KMnO₄)</li>
+              <li>حامض الكبريتيك H₂SO₄ (1 N)</li>
+              <li>ميزان كيميائي</li>
+              <li>سحاحة وحامل سحاحة</li>
+              <li>ماصة</li>
+              <li>دورق مخروطي</li>
+              <li>قمع</li>
+              <li>جهاز تسخين (سخان)</li>
+            </ul>
+          </td>
+          <td><div class="indicator-badge self-ind">دليل ذاتي<br>(Self-indicator)<br>KMnO₄ نفسه<br>(اللون الأرجواني)</div></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    راغب علي
+  </footer>
+
+</div>
+</body>
+</html>
